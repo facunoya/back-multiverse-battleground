@@ -23,6 +23,20 @@ const apiControllers = {
             .then((userFighters) => {
                 return res.send(userFighters)
             })
+    },
+    createUser: async (req, res) => {
+        await db.Users.create({
+            "userName": "Ameo",
+            "email": "ameo@gmail.com",
+            "password": "123456",
+            "avatar": "Ameo.jpg",
+            "profile": "Admin",
+            "money": 5000,
+        })
+        db.Users.findAll()
+            .then((users) => {
+                return res.send(users)
+            })
     }
 }
 

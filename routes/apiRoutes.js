@@ -5,5 +5,6 @@ const apiControllers = require('../controllers/apiControllers')
 router.get('/allusers', apiControllers.getAllUsers)
 router.get('/allfighters', apiControllers.getAllFighters)
 router.get('/alluserfighters', apiControllers.getAllUserFighters)
+router.get('/crearuno', apiControllers.createUser)
 
 module.exports = router
