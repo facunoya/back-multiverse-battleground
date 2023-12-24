@@ -1,7 +1,9 @@
 const express = require('express')
 const app = express()
 const apiRoutes = require('./routes/apiRoutes')
+const cors = require('cors')
 
+app.use(cors())
 app.use(express.json())
 app.use(express.static('public'));
 app.use('/api', apiRoutes)
