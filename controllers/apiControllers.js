@@ -7,7 +7,7 @@ const { Op } = require('sequelize')
 
 const apiControllers = {
     getAllUsers: async (req, res) => {
-        await db.Users.findAll({ include: [{ association: "userFighters" }] })
+        await db.Users.findAll({ include: [{ association: "userfighters" }] })
             .then((users) => {
                 return res.send(users)
             })
@@ -26,7 +26,7 @@ const apiControllers = {
     },
     createUser: async (req, res) => {
         await db.Users.create({
-            "userName": "Ameo",
+            "name": "Ameo",
             "email": "ameo@gmail.com",
             "password": "123456",
             "avatar": "Ameo.jpg",

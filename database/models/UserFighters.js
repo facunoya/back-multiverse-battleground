@@ -2,16 +2,16 @@ module.exports = (sequelize, dataTypes) => {
     let alias = "UserFighters";
 
     let cols = {
-        userFighterId: {
+        user_fighter_id: {
             type: dataTypes.BIGINT(11),
             primaryKey: true,
             autoIncrement: true
         },
-        userId: {
+        user_id: {
             type: dataTypes.BIGINT(11),
             allowNull: false
         },
-        fighterId: {
+        fighter_id: {
             type: dataTypes.BIGINT(11),
             allowNull: false
         },
@@ -28,11 +28,11 @@ module.exports = (sequelize, dataTypes) => {
     UserFighters.associate = function (models) {
         UserFighters.belongsTo(models.Fighters, {
             as: "fighters",
-            foreignKey: "fighterId"
+            foreignKey: "fighter_id"
         })
         UserFighters.belongsTo(models.Users, {
             as: "users",
-            foreignKey: "userId"
+            foreignKey: "user_id"
         })
     }
 

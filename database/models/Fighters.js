@@ -2,7 +2,7 @@ module.exports = (sequelize, dataTypes) => {
     let alias = "Fighters";
 
     let cols = {
-        fighterId: {
+        fighter_id: {
             type: dataTypes.BIGINT(11),
             primaryKey: true,
             autoIncrement: true
@@ -20,11 +20,11 @@ module.exports = (sequelize, dataTypes) => {
             allowNull: false
         },
 
-        currentHp: {
+        current_hp: {
             type: dataTypes.BIGINT(11),
             allowNull: false
         },
-        currentXp: {
+        current_xp: {
             type: dataTypes.BIGINT(11),
             allowNull: false
         },
@@ -32,15 +32,15 @@ module.exports = (sequelize, dataTypes) => {
             type: dataTypes.BIGINT(11),
             allowNull: false
         },
-        imgBack: {
+        img_back: {
             type: dataTypes.STRING(255),
             allowNull: false
         },
-        imgFront: {
+        img_front: {
             type: dataTypes.STRING(255),
             allowNull: false
         },
-        inParty: {
+        in_party: {
             type: dataTypes.STRING(50),
             allowNull: false
         },
@@ -48,7 +48,7 @@ module.exports = (sequelize, dataTypes) => {
             type: dataTypes.BIGINT(11),
             allowNull: false
         },
-        maxHp: {
+        max_hp: {
             type: dataTypes.BIGINT(11),
             allowNull: false
         },
@@ -60,11 +60,11 @@ module.exports = (sequelize, dataTypes) => {
             type: dataTypes.BIGINT(11),
             allowNull: false
         },
-        specialAttack: {
+        special_attack: {
             type: dataTypes.BIGINT(11),
             allowNull: false
         },
-        specialDefense: {
+        special_defense: {
             type: dataTypes.BIGINT(11),
             allowNull: false
         },
@@ -87,8 +87,8 @@ module.exports = (sequelize, dataTypes) => {
         //     foreignKey: "subcategory_id"
         // }) //esta podria ser para la tabla de moves
         Fighters.hasMany(models.UserFighters, {
-            as: "UserFighters",
-            foreignKey: "userFighterId"
+            as: "userfighters",
+            foreignKey: "user_fighter_id"
         })
     }
 
