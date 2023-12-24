@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Servidor: 127.0.0.1
--- Tiempo de generación: 23-12-2023 a las 23:04:59
+-- Tiempo de generación: 24-12-2023 a las 15:15:44
 -- Versión del servidor: 10.4.27-MariaDB
 -- Versión de PHP: 8.2.0
 
@@ -20,45 +20,37 @@ SET time_zone = "+00:00";
 --
 -- Base de datos: `modelo_prueba_battleground`
 --
-CREATE DATABASE IF NOT EXISTS `modelo_prueba_battleground` DEFAULT CHARACTER SET latin1 COLLATE latin1_swedish_ci;
-USE `modelo_prueba_battleground`;
 
 -- --------------------------------------------------------
 
 --
 -- Estructura de tabla para la tabla `fighters`
 --
--- Creación: 23-12-2023 a las 21:45:55
---
 
 CREATE TABLE `fighters` (
-  `fighterId` int(11) NOT NULL,
+  `fighter_id` int(11) NOT NULL,
   `accuracy` int(11) NOT NULL,
   `active` varchar(50) NOT NULL,
   `attack` int(11) NOT NULL,
-  `currentHp` int(11) NOT NULL,
-  `currentXp` int(11) NOT NULL,
+  `current_hp` int(11) NOT NULL,
+  `current_xp` int(11) NOT NULL,
   `defense` int(11) NOT NULL,
-  `imgBack` varchar(255) NOT NULL,
-  `imgFront` varchar(255) NOT NULL,
-  `inParty` varchar(50) NOT NULL,
+  `img_back` varchar(255) NOT NULL,
+  `img_front` varchar(255) NOT NULL,
+  `in_party` varchar(50) NOT NULL,
   `level` int(11) NOT NULL,
-  `maxHp` int(11) NOT NULL,
+  `max_hp` int(11) NOT NULL,
   `name` varchar(50) NOT NULL,
   `price` int(11) NOT NULL,
-  `specialAttack` int(11) NOT NULL,
-  `specialDefense` int(11) NOT NULL
+  `special_attack` int(11) NOT NULL,
+  `special_defense` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1 COLLATE=latin1_swedish_ci;
-
---
--- RELACIONES PARA LA TABLA `fighters`:
---
 
 --
 -- Volcado de datos para la tabla `fighters`
 --
 
-INSERT INTO `fighters` (`fighterId`, `accuracy`, `active`, `attack`, `currentHp`, `currentXp`, `defense`, `imgBack`, `imgFront`, `inParty`, `level`, `maxHp`, `name`, `price`, `specialAttack`, `specialDefense`) VALUES
+INSERT INTO `fighters` (`fighter_id`, `accuracy`, `active`, `attack`, `current_hp`, `current_xp`, `defense`, `img_back`, `img_front`, `in_party`, `level`, `max_hp`, `name`, `price`, `special_attack`, `special_defense`) VALUES
 (1, 65, '1', 100, 150, 125, 175, 'charizard.back', 'charizard.front', '1', 1, 300, 'Charizard', 110, 200, 220),
 (2, 65, '1', 100, 150, 125, 130, 'batman.back', 'batman.front', '1', 1, 200, 'Batman', 100, 210, 190),
 (3, 65, '1', 100, 110, 125, 130, 'goku.back', 'goku-front', '1', 1, 280, 'Goku', 100, 220, 160);
@@ -68,29 +60,18 @@ INSERT INTO `fighters` (`fighterId`, `accuracy`, `active`, `attack`, `currentHp`
 --
 -- Estructura de tabla para la tabla `userfighters`
 --
--- Creación: 23-12-2023 a las 19:38:29
--- Última actualización: 23-12-2023 a las 20:41:40
---
 
 CREATE TABLE `userfighters` (
-  `userFighterId` int(11) NOT NULL,
-  `userId` int(11) NOT NULL,
-  `fighterId` int(11) NOT NULL
+  `user_fighter_id` int(11) NOT NULL,
+  `user_id` int(11) NOT NULL,
+  `fighter_id` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1 COLLATE=latin1_swedish_ci;
-
---
--- RELACIONES PARA LA TABLA `userfighters`:
---   `fighterId`
---       `fighters` -> `fighterId`
---   `userId`
---       `users` -> `userId`
---
 
 --
 -- Volcado de datos para la tabla `userfighters`
 --
 
-INSERT INTO `userfighters` (`userFighterId`, `userId`, `fighterId`) VALUES
+INSERT INTO `userfighters` (`user_fighter_id`, `user_id`, `fighter_id`) VALUES
 (1, 1, 1),
 (2, 2, 3),
 (3, 2, 1),
@@ -102,29 +83,22 @@ INSERT INTO `userfighters` (`userFighterId`, `userId`, `fighterId`) VALUES
 --
 -- Estructura de tabla para la tabla `users`
 --
--- Creación: 23-12-2023 a las 20:38:40
--- Última actualización: 23-12-2023 a las 22:02:05
---
 
 CREATE TABLE `users` (
-  `userId` int(11) NOT NULL,
+  `user_id` int(11) NOT NULL,
   `email` varchar(50) NOT NULL,
   `password` varchar(50) NOT NULL,
-  `userName` varchar(50) NOT NULL,
+  `name` varchar(50) NOT NULL,
   `money` int(11) NOT NULL,
   `avatar` varchar(255) NOT NULL,
   `profile` varchar(50) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1 COLLATE=latin1_swedish_ci;
 
 --
--- RELACIONES PARA LA TABLA `users`:
---
-
---
 -- Volcado de datos para la tabla `users`
 --
 
-INSERT INTO `users` (`userId`, `email`, `password`, `userName`, `money`, `avatar`, `profile`) VALUES
+INSERT INTO `users` (`user_id`, `email`, `password`, `name`, `money`, `avatar`, `profile`) VALUES
 (1, 'lina@gmail.com', '123456', 'Lina', 5000, 'lina.jpg', 'Admin'),
 (2, 'luis@gmail.com', '123456', 'Luigi', 5000, 'luis.jpg', 'Admin'),
 (3, 'maxip@gmail.com', '123456', 'Maxi', 5000, 'Maxi.jpg', 'Admin'),
@@ -141,21 +115,21 @@ INSERT INTO `users` (`userId`, `email`, `password`, `userName`, `money`, `avatar
 -- Indices de la tabla `fighters`
 --
 ALTER TABLE `fighters`
-  ADD PRIMARY KEY (`fighterId`);
+  ADD PRIMARY KEY (`fighter_id`);
 
 --
 -- Indices de la tabla `userfighters`
 --
 ALTER TABLE `userfighters`
-  ADD PRIMARY KEY (`userFighterId`),
-  ADD KEY `userfighter_fighter` (`fighterId`),
-  ADD KEY `userfighter_user` (`userId`);
+  ADD PRIMARY KEY (`user_fighter_id`),
+  ADD KEY `userfighter_fighter` (`fighter_id`),
+  ADD KEY `userfighter_user` (`user_id`);
 
 --
 -- Indices de la tabla `users`
 --
 ALTER TABLE `users`
-  ADD PRIMARY KEY (`userId`);
+  ADD PRIMARY KEY (`user_id`);
 
 --
 -- AUTO_INCREMENT de las tablas volcadas
@@ -165,19 +139,19 @@ ALTER TABLE `users`
 -- AUTO_INCREMENT de la tabla `fighters`
 --
 ALTER TABLE `fighters`
-  MODIFY `fighterId` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
+  MODIFY `fighter_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
 
 --
 -- AUTO_INCREMENT de la tabla `userfighters`
 --
 ALTER TABLE `userfighters`
-  MODIFY `userFighterId` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
+  MODIFY `user_fighter_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
 
 --
 -- AUTO_INCREMENT de la tabla `users`
 --
 ALTER TABLE `users`
-  MODIFY `userId` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=8;
+  MODIFY `user_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=8;
 
 --
 -- Restricciones para tablas volcadas
@@ -187,8 +161,8 @@ ALTER TABLE `users`
 -- Filtros para la tabla `userfighters`
 --
 ALTER TABLE `userfighters`
-  ADD CONSTRAINT `userfighter_fighter` FOREIGN KEY (`fighterId`) REFERENCES `fighters` (`fighterId`),
-  ADD CONSTRAINT `userfighter_user` FOREIGN KEY (`userId`) REFERENCES `users` (`userId`);
+  ADD CONSTRAINT `userfighter_fighter` FOREIGN KEY (`fighter_id`) REFERENCES `fighters` (`fighter_id`),
+  ADD CONSTRAINT `userfighter_user` FOREIGN KEY (`user_id`) REFERENCES `users` (`user_id`);
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
