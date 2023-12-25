@@ -7,49 +7,12 @@ module.exports = (sequelize, dataTypes) => {
             primaryKey: true,
             autoIncrement: true
         },
-        accuracy: {
-            type: dataTypes.BIGINT(11),
-            allowNull: false
-        },
-        active: {
-            type: dataTypes.STRING(50),
-            allowNull: false
-        },
-        attack: {
-            type: dataTypes.BIGINT(11),
-            allowNull: false
-        },
-
-        current_hp: {
-            type: dataTypes.BIGINT(11),
-            allowNull: false
-        },
-        current_xp: {
-            type: dataTypes.BIGINT(11),
-            allowNull: false
-        },
-        defense: {
-            type: dataTypes.BIGINT(11),
-            allowNull: false
-        },
         img_back: {
             type: dataTypes.STRING(255),
             allowNull: false
         },
         img_front: {
             type: dataTypes.STRING(255),
-            allowNull: false
-        },
-        in_party: {
-            type: dataTypes.STRING(50),
-            allowNull: false
-        },
-        level: {
-            type: dataTypes.BIGINT(11),
-            allowNull: false
-        },
-        max_hp: {
-            type: dataTypes.BIGINT(11),
             allowNull: false
         },
         name: {
@@ -59,15 +22,7 @@ module.exports = (sequelize, dataTypes) => {
         price: {
             type: dataTypes.BIGINT(11),
             allowNull: false
-        },
-        special_attack: {
-            type: dataTypes.BIGINT(11),
-            allowNull: false
-        },
-        special_defense: {
-            type: dataTypes.BIGINT(11),
-            allowNull: false
-        },
+        }
         // createdDate: {
         //     type: dataTypes.DATE,
         //      allowNull: false

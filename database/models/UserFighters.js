@@ -15,6 +15,46 @@ module.exports = (sequelize, dataTypes) => {
             type: dataTypes.BIGINT(11),
             allowNull: false
         },
+        level: {
+            type: dataTypes.BIGINT(11),
+            allowNull: false
+        },
+        active: {
+            type: dataTypes.STRING(5),
+            allowNull: false
+        },
+        in_party: {
+            type: dataTypes.STRING(5),
+            allowNull: false
+        },
+        extra_accuracy: {
+            type: dataTypes.BIGINT(11),
+            allowNull: false
+        },
+        extra_max_hp: {
+            type: dataTypes.BIGINT(11),
+            allowNull: false
+        },
+        extra_attack: {
+            type: dataTypes.BIGINT(11),
+            allowNull: false
+        },
+        extra_special_attack: {
+            type: dataTypes.BIGINT(11),
+            allowNull: false
+        },
+        extra_defense: {
+            type: dataTypes.BIGINT(11),
+            allowNull: false
+        },
+        extra_special_defense: {
+            type: dataTypes.BIGINT(11),
+            allowNull: false
+        },
+        current_xp: {
+            type: dataTypes.BIGINT(11),
+            allowNull: false
+        },
 
 
     };
