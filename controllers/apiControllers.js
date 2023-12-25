@@ -18,10 +18,28 @@ const apiControllers = {
                 return res.send(fighters)
             })
     },
+    getAllObjects: async (req, res) => {
+        await db.Objects.findAll()
+            .then((objects) => {
+                return res.send(objects)
+            })
+    },
     getAllUserFighters: async (req, res) => {
         await db.UserFighters.findAll({ include: [{ association: "users" }, { association: "fighters" }] })
             .then((userFighters) => {
                 return res.send(userFighters)
+            })
+    },
+    getAllUserObjects: async (req, res) => {
+        await db.UserObjects.findAll({ include: [{ association: "users" }, { association: "objects" }] })
+            .then((userObjects) => {
+                return res.send(userObjects)
+            })
+    },
+    getAllFighterLevels: async (req, res) => {
+        await db.FighterLevels.findAll({ include: [{ association: "fighters" }] })
+            .then((fighterLevel) => {
+                return res.send(fighterLevel)
             })
     },
     createUser: async (req, res) => {
