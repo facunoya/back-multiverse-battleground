@@ -51,17 +51,21 @@ const apiControllers = {
         }
     },
     getAllFighters: async (req, res) => {
-        await db.Fighters.findAll({ include: [{ association: "moves" }] })
-            .then((fighters) => {
-                // console.log(fighters)
-                const result = fighters[0].moves[0].dataValues
-                const allmoves = []
-                for (let i = 0; i < 2; i++) {
-
-                    allmoves.push(result)
-
+        await db.Fighters.findAll({
+            include: [
+                {
+                    model: db.Moves, // Modelo asociado a 'moves'
+                    as: 'moves', // Alias de la asociación 'moves'
+                    include: [
+                        {
+                            model: db.MoveActions, // Modelo asociado a 'moveactions' a través de 'moves'
+                            as: 'actionmoves' // Alias de la asociación 'actionmoves'
+                        }
+                    ]
                 }
-                console.log('resultado: ', allmoves)
+            ]
+        })
+            .then((fighters) => {
                 return res.send(fighters)
             })
     },
