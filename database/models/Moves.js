@@ -19,6 +19,10 @@ module.exports = (sequelize, dataTypes) => {
             type: dataTypes.STRING(50),
             allowNull: false
         },
+        sfx: {
+            type: dataTypes.STRING(80),
+            allowNull: false
+        },
         mp: {
             type: dataTypes.BIGINT(11),
             allowNull: false
