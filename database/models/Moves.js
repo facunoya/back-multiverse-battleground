@@ -51,11 +51,11 @@ module.exports = (sequelize, dataTypes) => {
         })
         Moves.hasMany(models.MoveActions, {
             as: "actionmoves",
-            foreignKey: "action_move_id"
+            foreignKey: "move_id"
         })
         Moves.hasMany(models.UserFighterMoves, {
             as: "userfightermoves",
-            foreignKey: "user_fighter_move_id"
+            foreignKey: "move_id"
         })
     }
     return Moves

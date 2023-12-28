@@ -106,7 +106,7 @@ const apiControllers = {
                                 where: {
                                     move_id: db.Sequelize.col('UserFighterMoves.move_id'),
                                 },
-                                include: [{ model: db.MoveActions, as: "actionmoves", where: { move_id: db.Sequelize.col('UserFighterMoves.move_id') } }]
+                                include: [{ model: db.MoveActions, as: 'actionmoves' }]
                             },
                         ],
                     });
