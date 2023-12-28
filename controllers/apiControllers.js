@@ -117,7 +117,7 @@ const apiControllers = {
     },
     getAllUserObjects: async (req, res) => {
         const user_id = req.params.user_id;
-        await db.UserObjects.findAll({ include: [{ association: "objects" }], where: { user_id: user_id }, })
+        await db.UserObjects.findAll({ include: [{ association: "objects", include: [{ association: "actionobjects" }] }], where: { user_id: user_id }, })
             .then((userObjects) => {
                 const mappedUserObjects = userObjects.map((userObject) => ({
                     ...userObject.toJSON(),  // Utiliza el spread operator para copiar todas las propiedades

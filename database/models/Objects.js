@@ -54,6 +54,12 @@ module.exports = (sequelize, dataTypes) => {
             foreignKey: "user_object_id"
         })
     }
+    Objects.associate = function (models) {
+        Objects.hasMany(models.ObjectActions, {
+            as: "actionobjects",
+            foreignKey: "action_object_id"
+        })
+    }
 
 
     return Objects
