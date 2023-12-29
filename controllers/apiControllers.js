@@ -152,7 +152,7 @@ const apiControllers = {
         const object_id = req.body[0].object_id
         const object = await db.Objects.findOne({ where: { object_id } })
         const userMoney = await db.UserObjects.findOne({
-            where: { object_id: 7 } //7 es Money
+            where: { object_id: 7 , user_id} //7 es Money
         });
         if (userMoney.quantity > object.price) {
             userMoney.quantity -= object.price //poner el precio del objeto comprado
@@ -183,7 +183,7 @@ const apiControllers = {
         const fighter_id = req.body[0].fighter_id
         const fighter = await db.Fighters.findOne({ where: { fighter_id } })
         const userMoney = await db.UserObjects.findOne({
-            where: { object_id: 7 } //7 es Money
+            where: { object_id: 7, user_id } //7 es Money
         });
         if (userMoney.quantity > fighter.price) {
             userMoney.quantity -= fighter.price //poner el precio del objeto comprado

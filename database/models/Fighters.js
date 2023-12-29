@@ -47,7 +47,7 @@ module.exports = (sequelize, dataTypes) => {
         })
         Fighters.hasMany(models.Moves, {
             as: "moves",
-            foreignKey: "move_id"
+            foreignKey: "fighter_id"
         })
     }
 

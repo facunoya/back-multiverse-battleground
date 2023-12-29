@@ -45,7 +45,7 @@ module.exports = (sequelize, dataTypes) => {
         //     as: "SubCategories",
         //     foreignKey: "subcategory_id"
         // }) //esta podria ser para la tabla de moves
-        Moves.hasMany(models.Fighters, {
+        Moves.belongsTo(models.Fighters, {
             as: "fighters",
             foreignKey: "fighter_id"
         })
