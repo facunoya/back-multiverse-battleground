@@ -129,6 +129,24 @@ const apiControllers = {
                 return res.send(mappedUserObjects)
             })
     },
+    upadateUserObjects: async (req, res) => {
+        let parametros = req.body[0]
+        let user_objec_id = parametros.id
+        let quantity = parametros.quantity
+        const id = user_objec_id
+        const cantidad = quantity
+        const updateObject = await db.UserObjects.findOne({
+            where: { user_object_id: id } //7 es Money
+        });
+
+        updateObject.quantity = quantity
+        //const newId = req.body.user_object_id
+        await db.UserObjects.update({ ...updateObject, quantity: quantity }, { where: { user_object_id: id } })//esperar a que este resuelto
+
+        //console.log("ACA ---------------------------------------->", parametros)
+        return res.json(updateObject)
+    }
+    ,
     getAllFighterLevels: async (req, res) => {
         await db.FighterLevels.findAll({ include: [{ association: "fighters" }] })
             .then((fighterLevel) => {
@@ -152,7 +170,7 @@ const apiControllers = {
         const object_id = req.body[0].object_id
         const object = await db.Objects.findOne({ where: { object_id } })
         const userMoney = await db.UserObjects.findOne({
-            where: { object_id: 7 , user_id} //7 es Money
+            where: { object_id: 7, user_id } //7 es Money
         });
         if (userMoney.quantity > object.price) {
             userMoney.quantity -= object.price //poner el precio del objeto comprado
