@@ -46,8 +46,7 @@ module.exports = (sequelize, dataTypes) => {
             type: dataTypes.BIGINT(11),
             primaryKey: false,
             autoIncrement: false
-        },
-
+        }
     };
     let config = {
         tableName: "users",
