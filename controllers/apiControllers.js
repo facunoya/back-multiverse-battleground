@@ -338,6 +338,19 @@ const apiControllers = {
             .then((users) => {
                 return res.send(users)
             })
+    },
+    updateUserConfig: async (req, res) => {
+        const parameters=req.body[0]
+        const bg = parameters.bg
+        const sound = parameters.sound
+        const sfx = parameters.sfx
+        const user_id = parameters.user_id
+        await db.Users.findOne()
+        const updateUser = await db.Users.findOne({
+            where: { user_id } 
+        });
+        await db.Users.update({ ...updateUser, bg_volume: bg,sfx_volume:sfx,sound_volume:sound }, { where: { user_id } })
+        res.send('ok')
     }
 }
 

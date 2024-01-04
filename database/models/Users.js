@@ -31,7 +31,22 @@ module.exports = (sequelize, dataTypes) => {
             type: dataTypes.STRING(50),
             allowNull: false
 
-        }
+        },
+        bg_volume: {
+            type: dataTypes.BIGINT(11),
+            primaryKey: false,
+            autoIncrement: false
+        },
+        sound_volume: {
+            type: dataTypes.BIGINT(11),
+            primaryKey: false,
+            autoIncrement: false
+        },
+        sfx_volume: {
+            type: dataTypes.BIGINT(11),
+            primaryKey: false,
+            autoIncrement: false
+        },
 
     };
     let config = {
