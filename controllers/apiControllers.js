@@ -134,16 +134,18 @@ const apiControllers = {
         let user_objec_id = parametros.id
         let quantity = parametros.quantity
         const id = user_objec_id
-        const cantidad = quantity
+        //const cantidad = quantity
         const updateObject = await db.UserObjects.findOne({
-            where: { user_object_id: id } //7 es Money
+            where: { user_object_id: id }
         });
+        if (quantity > 0) {
 
-        updateObject.quantity = quantity
-        //const newId = req.body.user_object_id
-        await db.UserObjects.update({ ...updateObject, quantity: quantity }, { where: { user_object_id: id } })//esperar a que este resuelto
+            updateObject.quantity = quantity
+            await db.UserObjects.update({ ...updateObject, quantity: quantity }, { where: { user_object_id: id } })//esperar a que este resuelto
+        } else {
+            await db.UserObjects.destroy({ where: { user_object_id: id } })
+        }
 
-        //console.log("ACA ---------------------------------------->", parametros)
         return res.json(updateObject)
     }
     ,
@@ -340,16 +342,16 @@ const apiControllers = {
             })
     },
     updateUserConfig: async (req, res) => {
-        const parameters=req.body[0]
+        const parameters = req.body[0]
         const bg = parameters.bg
         const sound = parameters.sound
         const sfx = parameters.sfx
         const user_id = parameters.user_id
         await db.Users.findOne()
         const updateUser = await db.Users.findOne({
-            where: { user_id } 
+            where: { user_id }
         });
-        await db.Users.update({ ...updateUser, bg_volume: bg,sfx_volume:sfx,sound_volume:sound }, { where: { user_id } })
+        await db.Users.update({ ...updateUser, bg_volume: bg, sfx_volume: sfx, sound_volume: sound }, { where: { user_id } })
         res.send('ok')
     }
 }
