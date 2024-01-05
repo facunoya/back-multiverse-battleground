@@ -69,6 +69,11 @@ const apiControllers = {
                 return res.send(fighters)
             })
     },
+    getAllFightersInitialLevel: async (req, res) => {
+        const all = await db.FighterLevels.findAll({ include: [{ association: "fighters" }] })
+        const initialLevel = await all.filter(x => x.level === 1)
+        res.send(initialLevel)
+    },
     getAllObjects: async (req, res) => {
         await db.Objects.findAll()
             .then((objects) => {
@@ -130,19 +135,19 @@ const apiControllers = {
             })
     },
     getAllMisions: async (req, res) => {
-        await db.Missions.findAll({ include: [{ association: "missionlevels"}, { association: "missionprizes" }] })
-        .then((missions) => {
-            return res.send(missions)
-        })
+        await db.Missions.findAll({ include: [{ association: "missionlevels" }, { association: "missionprizes" }] })
+            .then((missions) => {
+                return res.send(missions)
+            })
     },
     upadateUserObjects: async (req, res) => {
         let parametros = req.body[0]
         let objects = parametros.objects
         objects.forEach(async (object) => {
             let quantity = object.quantity
-            let user_object_id= object.user_object_id
+            let user_object_id = object.user_object_id
             const updateObject = await db.UserObjects.findOne({
-                where: { user_object_id}
+                where: { user_object_id }
             })
             if (quantity > 0) {
                 updateObject.quantity = quantity
