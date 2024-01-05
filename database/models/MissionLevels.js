@@ -1,8 +1,8 @@
 module.exports = (sequelize, dataTypes) => {
-    let alias = "MisionLevels";
+    let alias = "MissionLevels";
 
     let cols = {
-        misionlevels_id: {
+        missionlevels_id: {
             type: dataTypes.BIGINT(11),
             primaryKey: true,
             autoIncrement: true
@@ -11,7 +11,7 @@ module.exports = (sequelize, dataTypes) => {
             type: dataTypes.BIGINT(11),
             allowNull: false
         },
-        mision_id: {
+        mission_id: {
             type: dataTypes.BIGINT(11),
             allowNull: false
         },
@@ -25,24 +25,24 @@ module.exports = (sequelize, dataTypes) => {
         }       
     };
     let config = {
-        tableName: "misionlevels",
+        tableName: "missionlevels",
         timestamps: false
     };
 
-    const MisionLevels = sequelize.define(alias, cols, config);
-    MisionLevels.associate = function (models) {
+    const MissionLevels = sequelize.define(alias, cols, config);
+    MissionLevels.associate = function (models) {
         // Moves.belongsTo(models.SubCategories, {
         //     as: "SubCategories",
         //     foreignKey: "subcategory_id"
         // }) //esta podria ser para la tabla de moves
-        MisionLevels.belongsTo(models.Misions, {
-            as: "misions",
-            foreignKey: "mision_id"
+        MissionLevels.belongsTo(models.Missions, {
+            as: "missions",
+            foreignKey: "mission_id"
         })
-        MisionLevels.belongsTo(models.Fighters, {
+        MissionLevels.belongsTo(models.Fighters, {
             as: "fighters",
             foreignKey: "fighter_id"
         })
     }
-    return MisionLevels
+    return MissionLevels
 }

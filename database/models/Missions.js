@@ -1,8 +1,8 @@
 module.exports = (sequelize, dataTypes) => {
-    let alias = "Misions";
+    let alias = "Missions";
 
     let cols = {
-        mision_id: {
+        mission_id: {
             type: dataTypes.BIGINT(11),
             primaryKey: true,
             autoIncrement: true
@@ -19,26 +19,26 @@ module.exports = (sequelize, dataTypes) => {
 
     };
     let config = {
-        tableName: "misions",
+        tableName: "missions",
         timestamps: false
     };
 
-    const Misions = sequelize.define(alias, cols, config);
+    const Missions = sequelize.define(alias, cols, config);
    /* Objects.associate = function (models) {
         Objects.hasMany(models.UserObjects, {
             as: "userobjects",
             foreignKey: "user_object_id"
         })
     }*/
-    Misions.associate = function (models) {
-        Misions.hasMany(models.MisionLevels, {
-            as: "misionlevels",
-            foreignKey: "misionlevels_id"
+    Missions.associate = function (models) {
+        Missions.hasMany(models.MissionLevels, {
+            as: "missionlevels",
+            foreignKey: "missionlevels_id"
         })
-        Misions.hasMany(models.MisionPrizes, {
-            as: "misionprizes",
-            foreignKey: "misionprizes_id"
+        Missions.hasMany(models.MissionPrizes, {
+            as: "missionprizes",
+            foreignKey: "missionprizes_id"
         })
     }
-    return Misions
+    return Missions
 }

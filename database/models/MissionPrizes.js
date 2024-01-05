@@ -1,13 +1,13 @@
 module.exports = (sequelize, dataTypes) => {
-    let alias = "MisionPrizes";
+    let alias = "MissionPrizes";
 
     let cols = {
-        misionprizes_id: {
+        missionprizes_id: {
             type: dataTypes.BIGINT(11),
             primaryKey: true,
             autoIncrement: true
         },
-        mision_id: {
+        mission_id: {
             type: dataTypes.BIGINT(11),
             allowNull: false
         },
@@ -21,24 +21,24 @@ module.exports = (sequelize, dataTypes) => {
         }       
     };
     let config = {
-        tableName: "misionprizes",
+        tableName: "missionprizes",
         timestamps: false
     };
 
-    const MisionPrizes = sequelize.define(alias, cols, config);
-    MisionPrizes.associate = function (models) {
+    const MissionPrizes = sequelize.define(alias, cols, config);
+    MissionPrizes.associate = function (models) {
         // Moves.belongsTo(models.SubCategories, {
         //     as: "SubCategories",
         //     foreignKey: "subcategory_id"
         // }) //esta podria ser para la tabla de moves
-        MisionPrizes.belongsTo(models.Misions, {
-            as: "misions",
-            foreignKey: "mision_id"
+        MissionPrizes.belongsTo(models.Missions, {
+            as: "missions",
+            foreignKey: "mission_id"
         })
-        MisionPrizes.belongsTo(models.Objects, {
+        MissionPrizes.belongsTo(models.Objects, {
             as: "objects",
             foreignKey: "object_id"
         })
     }
-    return MisionPrizes
+    return MissionPrizes
 }
