@@ -70,9 +70,21 @@ const apiControllers = {
             })
     },
     getAllFightersInitialLevel: async (req, res) => {
-        const all = await db.FighterLevels.findAll({ include: [{ association: "fighters" }] })
-        const initialLevel = await all.filter(x => x.level === 1)
-        res.send(initialLevel)
+
+        const query = `
+        SELECT fighterlevels.*, fighters.*
+        FROM bza3ei2wxiisdvotlfcc.fighterlevels
+        INNER JOIN fighters ON fighterlevels.fighter_id = fighters.fighter_id
+        WHERE fighterlevels.level = 1;
+      `;
+
+        // Ejecuta la consulta SQL personalizada usando sequelize.query
+        const result = await db.sequelize.query(query, {
+            type: db.sequelize.QueryTypes.SELECT,
+        });
+
+        res.json(result)
+
     },
     getAllObjects: async (req, res) => {
         await db.Objects.findAll()
