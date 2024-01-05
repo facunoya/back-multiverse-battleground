@@ -131,22 +131,21 @@ const apiControllers = {
     },
     upadateUserObjects: async (req, res) => {
         let parametros = req.body[0]
-        let user_objec_id = parametros.id
-        let quantity = parametros.quantity
-        const id = user_objec_id
-        //const cantidad = quantity
-        const updateObject = await db.UserObjects.findOne({
-            where: { user_object_id: id }
-        });
-        if (quantity > 0) {
-
-            updateObject.quantity = quantity
-            await db.UserObjects.update({ ...updateObject, quantity: quantity }, { where: { user_object_id: id } })//esperar a que este resuelto
-        } else {
-            await db.UserObjects.destroy({ where: { user_object_id: id } })
-        }
-
-        return res.json(updateObject)
+        let objects = parametros.objects
+        objects.forEach(async (object) => {
+            let quantity = object.quantity
+            let user_object_id= object.user_object_id
+            const updateObject = await db.UserObjects.findOne({
+                where: { user_object_id}
+            })
+            if (quantity > 0) {
+                updateObject.quantity = quantity
+                await db.UserObjects.update({ ...updateObject, quantity: quantity }, { where: { user_object_id } })//esperar a que este resuelto
+            } else {
+                await db.UserObjects.destroy({ where: { user_object_id } })
+            }
+        })
+        return res.send('ok')
     }
     ,
     getAllFighterLevels: async (req, res) => {
