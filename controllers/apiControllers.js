@@ -129,6 +129,12 @@ const apiControllers = {
                 return res.send(mappedUserObjects)
             })
     },
+    getAllMisions: async (req, res) => {
+        await db.Missions.findAll({ include: [{ association: "missionlevels"}, { association: "missionprizes" }] })
+        .then((missions) => {
+            return res.send(missions)
+        })
+    },
     upadateUserObjects: async (req, res) => {
         let parametros = req.body[0]
         let objects = parametros.objects

@@ -24,21 +24,16 @@ module.exports = (sequelize, dataTypes) => {
     };
 
     const Missions = sequelize.define(alias, cols, config);
-   /* Objects.associate = function (models) {
-        Objects.hasMany(models.UserObjects, {
-            as: "userobjects",
-            foreignKey: "user_object_id"
-        })
-    }*/
     Missions.associate = function (models) {
-        Missions.hasMany(models.MissionLevels, {
-            as: "missionlevels",
-            foreignKey: "missionlevels_id"
-        })
         Missions.hasMany(models.MissionPrizes, {
             as: "missionprizes",
-            foreignKey: "missionprizes_id"
+            foreignKey: "mission_id"
         })
+        
+        Missions.hasMany(models.MissionLevels, {
+            as: "missionlevels",
+            foreignKey: "mission_id"
+        })   
     }
     return Missions
 }
