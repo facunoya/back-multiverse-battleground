@@ -18,6 +18,14 @@ module.exports = (sequelize, dataTypes) => {
         current_xp: {
             type: dataTypes.BIGINT(11),
             allowNull: false
+        },
+        level: {
+            type: dataTypes.BIGINT(11),
+            allowNull: false
+        },
+        movelevel_id: {
+            type: dataTypes.BIGINT(11),
+            allowNull: false
         }
 
     };
@@ -32,9 +40,10 @@ module.exports = (sequelize, dataTypes) => {
         //     as: "SubCategories",
         //     foreignKey: "subcategory_id"
         // }) //esta podria ser para la tabla de moves
-        UserFighterMoves.belongsTo(models.Moves, {
-            as: "moves",
-            foreignKey: "move_id"
+        UserFighterMoves.belongsTo(models.MoveLevels, {
+            as: "movelevels",
+            foreignKey: 'movelevel_id',
+            targetKey: 'movelevel_id'
         })
         UserFighterMoves.belongsTo(models.UserFighters, {
             as: "userfighters",

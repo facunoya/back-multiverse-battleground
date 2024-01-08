@@ -1,8 +1,8 @@
 module.exports = (sequelize, dataTypes) => {
-    let alias = "MoveActions";
+    let alias = "MoveLevels";
 
     let cols = {
-        action_move_id: {
+        movelevel_id: {
             type: dataTypes.BIGINT(11),
             primaryKey: true,
             autoIncrement: true
@@ -11,27 +11,11 @@ module.exports = (sequelize, dataTypes) => {
             type: dataTypes.BIGINT(11),
             allowNull: false
         },
-        attack_type: {
-            type: dataTypes.STRING(255),
-            allowNull: false
-        },
-        field: {
-            type: dataTypes.STRING(50),
-            allowNull: false
-        },
-        inflicted_on: {
-            type: dataTypes.STRING(50),
-            allowNull: false
-        },
-        value: {
+        min_xp: {
             type: dataTypes.BIGINT(11),
             allowNull: false
         },
         level: {
-            type: dataTypes.BIGINT(11),
-            allowNull: false
-        },
-        movelevel_id: {
             type: dataTypes.BIGINT(11),
             allowNull: false
         }
@@ -43,17 +27,28 @@ module.exports = (sequelize, dataTypes) => {
 
     };
     let config = {
-        tableName: "actionmoves",
+        tableName: "movelevels",
         timestamps: false
     };
 
-    const MoveActions = sequelize.define(alias, cols, config);
-    MoveActions.associate = function (models) {
+    const MoveLevels = sequelize.define(alias, cols, config);
+    MoveLevels.associate = function (models) {
         // Moves.belongsTo(models.SubCategories, {
         //     as: "SubCategories",
         //     foreignKey: "subcategory_id"
         // }) //esta podria ser para la tabla de moves
-        MoveActions.belongsTo(models.MoveLevels, {as:"movelevels", foreignKey: 'movelevel_id' });
+        MoveLevels.belongsTo(models.Moves, {
+            as: "moves",
+            foreignKey: "move_id"
+        })
+        MoveLevels.hasMany(models.UserFighterMoves, {
+            as: "userfightermoves",
+            foreignKey: "movelevel_id"
+        })
+        MoveLevels.hasMany(models.MoveActions, {
+            as: "moveactions",
+            foreignKey: "movelevel_id"
+        })
     }
-    return MoveActions
+    return MoveLevels
 }

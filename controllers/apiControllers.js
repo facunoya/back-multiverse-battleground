@@ -118,14 +118,45 @@ const apiControllers = {
                         where: { user_fighter_id: fighter.user_fighter_id },
                         include: [
                             {
-                                model: db.Moves,
-                                as: 'moves',
-                                where: {
-                                    move_id: db.Sequelize.col('UserFighterMoves.move_id'),
-                                },
-                                include: [{ model: db.MoveActions, as: 'actionmoves' }]
+                                model: db.MoveLevels,
+                                as: 'movelevels',
+                                include:[
+                                    {
+                                        model:db.Moves,
+                                        as:"moves"
+                                    },
+                                    {
+                                        model:db.MoveActions,
+                                        as:"moveactions"
+                                    }
+                                ]
                             },
                         ],
+                    });
+                    moves = moves.map(move => {
+                        const restructuredMove = {
+                            user_fighter_move_id: move.user_fighter_move_id,
+                            move_id: move.move_id,
+                            user_fighter_id: move.user_fighter_id,
+                            current_xp: move.current_xp,
+                            level: move.level,
+                            movelevel_id: move.movelevel_id,                           
+                            img: move.movelevels.moves.img,
+                            name: move.movelevels.moves.name,
+                            sfx: move.movelevels.moves.sfx,
+                            mp: move.movelevels.moves.mp,
+                            actionmoves: move.movelevels.moveactions.map(action => ({
+                                action_move_id: action.action_move_id,
+                                move_id: action.move_id,
+                                attack_type: action.attack_type,
+                                field: action.field,
+                                inflicted_on: action.inflicted_on,
+                                value: action.value,
+                                level: action.level,
+                                movelevel_id: action.movelevel_id
+                            }))                            
+                        };
+                        return restructuredMove;
                     });
                     fighter.moves = moves
                 }
