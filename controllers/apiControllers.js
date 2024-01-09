@@ -1,9 +1,5 @@
-const fs = require('fs');
-const path = require('path');
 const db = require('../database/models')
-const sequelize = db.sequelize
-const { Op, Sequelize } = require('sequelize')
-
+const { Op } = require('sequelize');
 
 const apiControllers = {
     getAllUsers: async (req, res) => {
@@ -70,7 +66,6 @@ const apiControllers = {
             })
     },
     getAllFightersInitialLevel: async (req, res) => {
-
         const query = `
         SELECT fighterlevels.*, fighters.*
         FROM bza3ei2wxiisdvotlfcc.fighterlevels
@@ -120,14 +115,14 @@ const apiControllers = {
                             {
                                 model: db.MoveLevels,
                                 as: 'movelevels',
-                                include:[
+                                include: [
                                     {
-                                        model:db.Moves,
-                                        as:"moves"
+                                        model: db.Moves,
+                                        as: "moves"
                                     },
                                     {
-                                        model:db.MoveActions,
-                                        as:"moveactions"
+                                        model: db.MoveActions,
+                                        as: "moveactions"
                                     }
                                 ]
                             },
@@ -140,7 +135,7 @@ const apiControllers = {
                             user_fighter_id: move.user_fighter_id,
                             current_xp: move.current_xp,
                             level: move.level,
-                            movelevel_id: move.movelevel_id,                           
+                            movelevel_id: move.movelevel_id,
                             img: move.movelevels.moves.img,
                             name: move.movelevels.moves.name,
                             sfx: move.movelevels.moves.sfx,
@@ -154,7 +149,7 @@ const apiControllers = {
                                 value: action.value,
                                 level: action.level,
                                 movelevel_id: action.movelevel_id
-                            }))                            
+                            }))
                         };
                         return restructuredMove;
                     });
@@ -277,13 +272,22 @@ const apiControllers = {
             });
             /* le asigno movimientos en userfightermoves */
             const user_fighter_id = newUserFighter.user_fighter_id
-            const fighterMoves = await db.Moves.findAll({ where: { fighter_id } })
+            const fighterMoves = await db.Moves.findAll({ where: { fighter_id, min_level: 1 } })
             for (const move of fighterMoves) {
+                let movelevel_id
+                const moveLevels = await db.MoveLevels.findAll()
+                moveLevels.forEach((moveLevel) => {
+                    if (move.move_id === moveLevel.move_id && moveLevel.level === 1) {
+                        movelevel_id = moveLevel.movelevel_id
+                    }
+                })
                 await db.UserFighterMoves.create({
                     move_id: move.move_id,
                     level: 1,
                     current_xp: 1,
-                    user_fighter_id
+                    user_fighter_id,
+                    movelevel_id,
+                    selected: 1
                 })
             }
         } else {
@@ -302,12 +306,59 @@ const apiControllers = {
     },
     updateFighter: async (req, res) => {
         const newFighter = req.body[0].newFighter
+        const current_xp = req.body[0].current_xp
         const userFighter = await db.UserFighters.findOne({
             where: { user_fighter_id: newFighter.user_fighter_id }
         });
         userFighter.level = newFighter.level
         userFighter.current_xp = newFighter.current_xp
         userFighter.save()
+        const moves = await db.UserFighterMoves.findAll({
+            where: { user_fighter_id: newFighter.user_fighter_id, selected: 1 }
+        })
+        const moveLevels = await db.MoveLevels.findAll()
+        moves.forEach((move) => {
+            move.current_xp += current_xp / moves.length
+            moveLevels.forEach((moveLevel) => {
+                if (moveLevel.move_id === move.move_id && moveLevel.min_xp < move.current_xp) {
+                    move.level = moveLevel.level
+                    move.movelevel_id = moveLevel.movelevel_id
+                }
+            })
+            move.save()
+        })
+        const fighterMoves = await db.Moves.findAll({
+            where: {
+                fighter_id:userFighter.fighter_id, min_level: {
+                    [Op.lt]: userFighter.level
+                }
+            }
+        })
+        for (const move of fighterMoves) {
+            let movelevel_id
+            const moveLevels = await db.MoveLevels.findAll()
+            moveLevels.forEach((moveLevel) => {
+                if (move.move_id === moveLevel.move_id && moveLevel.level === 1) {
+                    movelevel_id = moveLevel.movelevel_id
+                }
+            })
+            const alreadyHasTheMove = await db.UserFighterMoves.findOne({
+                where: {
+                    user_fighter_id: newFighter.user_fighter_id,
+                    movelevel_id
+                }
+            })
+            if (!alreadyHasTheMove) {
+                await db.UserFighterMoves.create({
+                    move_id: move.move_id,
+                    level: 1,
+                    current_xp: 1,
+                    user_fighter_id: newFighter.user_fighter_id,
+                    movelevel_id,
+                    selected: 0
+                })
+            }
+        }
         return res.send("ok")
     },
     updateUserMoney: async (req, res) => {

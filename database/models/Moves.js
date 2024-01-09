@@ -26,6 +26,10 @@ module.exports = (sequelize, dataTypes) => {
         mp: {
             type: dataTypes.BIGINT(11),
             allowNull: false
+        },
+        min_level: {
+            type: dataTypes.BIGINT(11),
+            allowNull: false
         }
         // createdDate: {
         //     type: dataTypes.DATE,

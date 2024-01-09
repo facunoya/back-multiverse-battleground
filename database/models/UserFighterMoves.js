@@ -26,6 +26,10 @@ module.exports = (sequelize, dataTypes) => {
         movelevel_id: {
             type: dataTypes.BIGINT(11),
             allowNull: false
+        },
+        selected: {
+            type: dataTypes.BIGINT(11),
+            allowNull: false
         }
 
     };
