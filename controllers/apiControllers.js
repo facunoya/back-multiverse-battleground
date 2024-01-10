@@ -173,7 +173,14 @@ const apiControllers = {
             })
     },
     getAllMisions: async (req, res) => {
-        await db.Missions.findAll({ include: [{ association: "missionlevels" }, { association: "missionprizes" }] })
+        await db.Missions.findAll({
+            include: [
+                { association: "missionlevels" },
+                {
+                    association: "missionprizes",
+                    include: [{ association: "objects" }]
+                }]
+        })
             .then((missions) => {
                 return res.send(missions)
             })
@@ -195,8 +202,32 @@ const apiControllers = {
             }
         })
         return res.send('ok')
-    }
-    ,
+    },
+    completeMission: async (req, res) => {
+        let parametros = req.body[0]
+        let user_id = parametros.user_id
+        let missionprizes = parametros.missionprizes
+        missionprizes.forEach(async(missionPrize) => {
+            let object_id=missionPrize.object_id
+            let value=missionPrize.value
+            const userObject = await db.UserObjects.findOne({
+                where: { user_id, object_id },
+            });
+            if (userObject) {
+                // Si existe, actualizar la cantidad
+                userObject.quantity += value;
+                await userObject.save(); // Guardar los cambios en la base de datos
+            } else {
+                // Si no existe, crear un nuevo UserObject
+                await db.UserObjects.create({
+                    object_id,
+                    user_id,
+                    quantity: value,
+                });
+            }
+        })
+        return res.send('ok')
+    },
     getAllFighterLevels: async (req, res) => {
         await db.FighterLevels.findAll({ include: [{ association: "fighters" }] })
             .then((fighterLevel) => {
@@ -329,7 +360,7 @@ const apiControllers = {
         })
         const fighterMoves = await db.Moves.findAll({
             where: {
-                fighter_id:userFighter.fighter_id, min_level: {
+                fighter_id: userFighter.fighter_id, min_level: {
                     [Op.lt]: userFighter.level
                 }
             }
