@@ -207,9 +207,9 @@ const apiControllers = {
         let parametros = req.body[0]
         let user_id = parametros.user_id
         let missionprizes = parametros.missionprizes
-        missionprizes.forEach(async(missionPrize) => {
-            let object_id=missionPrize.object_id
-            let value=missionPrize.value
+        missionprizes.forEach(async (missionPrize) => {
+            let object_id = missionPrize.object_id
+            let value = missionPrize.value
             const userObject = await db.UserObjects.findOne({
                 where: { user_id, object_id },
             });
@@ -449,18 +449,19 @@ const apiControllers = {
         res.send('ok')
     },
     createUser: async (req, res) => {
-        await db.Users.create({
-            "name": "Ameo",
-            "email": "ameo@gmail.com",
-            "password": "123456",
-            "avatar": "Ameo.jpg",
-            "profile": "Admin",
-            "money": 5000,
-        })
+        const newUser = await { ...req.body }
+        await db.Users.create({ ...newUser })
         db.Users.findAll()
             .then((users) => {
+
                 return res.send(users)
             })
+        console.log({ ...newUser })
+        return res.status(200).json(newUser)
+        // const newUser = await { ...req.body }
+        // console.log(req.body)
+        // return res.status(200).json(newUser)
+
     },
     createFighterLevels: async (req, res) => {
         await db.FighterLevels.create({
