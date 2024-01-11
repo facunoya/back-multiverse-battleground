@@ -12,6 +12,7 @@ app.use('/api', apiRoutes)
 app.listen(port, () => {
     console.log('listen multiverse in port 3009')
 })
+const PORT = process.env.PORT || 3020;
 const http = require('http');
 const WebSocket = require('ws');
 const server = http.createServer(app);
@@ -86,6 +87,6 @@ function enviarMensajeACliente(clientId, type,id) {
       cliente.ws.send(JSON.stringify({ tipo: type, id }));
     }
   }
-server.listen(3020, () => {
+server.listen(PORT, () => {
     console.log('Servidor WebSocket escuchando en el puerto 3020');
 });
