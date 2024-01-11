@@ -17,7 +17,21 @@ const WebSocket = require('ws');
 const server = http.createServer(app);
 const wss = new WebSocket.Server({ server });
 const clientesConectados = new Map();
-
+function crearListaClientes() {
+    return Array.from(clientesConectados.values()).map(cliente => ({
+      clientId: cliente.clientId,
+      userName: cliente.userName
+    }));
+  }
+  function enviarListaClientesATodos() {
+    const listaClientes = crearListaClientes();
+    
+    clientesConectados.forEach((cliente) => {
+      if (cliente.ws.readyState === WebSocket.OPEN) {
+        cliente.ws.send(JSON.stringify({ tipo: 'listaClientes', listaClientes }));
+      }
+    });
+  }
 wss.on('connection', (ws) => {
     console.log('Cliente conectado');
   
@@ -29,14 +43,14 @@ wss.on('connection', (ws) => {
         const userName = data.userName;
   
         // Almacena la conexión, el identificador del cliente y el nombre de usuario
-        clientesConectados.set(clientId, { ws, userName });
+        clientesConectados.set(clientId, { ws, userName,clientId });
   
         // Envia la lista de clientes conectados al nuevo cliente
         const listaClientes = Array.from(clientesConectados.keys());
         ws.send(JSON.stringify({ tipo: 'listaClientes', listaClientes }));
   
         console.log(`Cliente ${userName} identificado con clientId ${clientId}`);
-        enviarMensajeATodos(JSON.stringify({ tipo: 'listaClientes', listaClientes }))
+        enviarListaClientesATodos()
       } else {
         console.log(`Mensaje recibido del cliente: ${message}`);
       }
@@ -52,8 +66,7 @@ wss.on('connection', (ws) => {
         
         // Elimina la conexión del conjunto cuando se cierra
         clientesConectados.delete(clienteDesconectado[0]);
-        const listaClientes = Array.from(clientesConectados.keys());
-        enviarMensajeATodos(JSON.stringify({ tipo: 'listaClientes', listaClientes }))
+        enviarListaClientesATodos()
       });
   });
 function enviarMensajeATodos(mensaje) {
