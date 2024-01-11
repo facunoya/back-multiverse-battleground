@@ -52,6 +52,8 @@ wss.on('connection', (ws) => {
         
         // Elimina la conexión del conjunto cuando se cierra
         clientesConectados.delete(clienteDesconectado[0]);
+        const listaClientes = Array.from(clientesConectados.keys());
+        enviarMensajeATodos(JSON.stringify({ tipo: 'listaClientes', listaClientes }))
       });
   });
 function enviarMensajeATodos(mensaje) {
