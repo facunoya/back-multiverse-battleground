@@ -341,9 +341,11 @@ const apiControllers = {
         const userFighter = await db.UserFighters.findOne({
             where: { user_fighter_id: newFighter.user_fighter_id }
         });
+        // Updates fighter Level and current_xp
         userFighter.level = newFighter.level
         userFighter.current_xp = newFighter.current_xp
         userFighter.save()
+        // Updates moves Levels
         const moves = await db.UserFighterMoves.findAll({
             where: { user_fighter_id: newFighter.user_fighter_id, selected: 1 }
         })
@@ -367,16 +369,18 @@ const apiControllers = {
         })
         for (const move of fighterMoves) {
             let movelevel_id
+            let move_id
             const moveLevels = await db.MoveLevels.findAll()
             moveLevels.forEach((moveLevel) => {
                 if (move.move_id === moveLevel.move_id && moveLevel.level === 1) {
                     movelevel_id = moveLevel.movelevel_id
+                    move_id=move.move_id
                 }
             })
             const alreadyHasTheMove = await db.UserFighterMoves.findOne({
                 where: {
                     user_fighter_id: newFighter.user_fighter_id,
-                    movelevel_id
+                    move_id
                 }
             })
             if (!alreadyHasTheMove) {
