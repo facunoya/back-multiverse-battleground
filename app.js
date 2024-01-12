@@ -16,7 +16,7 @@ const PORT = process.env.PORT || 3020;
 const http = require('http');
 const WebSocket = require('ws');
 const server = http.createServer(app);
-const wss = new WebSocket.Server({ server });
+const wss = new WebSocket.Server({ port: PORT });
 const clientesConectados = new Map();
 function crearListaClientes() {
     return Array.from(clientesConectados.values()).map(cliente => ({
@@ -87,6 +87,6 @@ function enviarMensajeACliente(clientId, type,id) {
       cliente.ws.send(JSON.stringify({ tipo: type, id }));
     }
   }
-server.listen(PORT, () => {
+/*server.listen(PORT, () => {
     console.log('Servidor WebSocket escuchando en el puerto 3020');
-});
+});*/
