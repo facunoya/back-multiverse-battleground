@@ -9,15 +9,18 @@ app.use(express.json())
 app.use(express.static('public'));
 app.use('/api', apiRoutes)
 
-app.listen(port, () => {
+/*app.listen(port, () => {
     console.log('listen multiverse in port 3009')
-})
-const PORT = process.env.PORT || 3020;
+})*/
 const http = require('http');
 const WebSocket = require('ws');
 const server = http.createServer(app);
-const wss = new WebSocket.Server({ port: PORT });
+const wss = new WebSocket.Server({ server });
 const clientesConectados = new Map();
+server.listen(port, function() {
+
+    console.log(`http/ws server listening on ${port}`);
+  });
 function crearListaClientes() {
     return Array.from(clientesConectados.values()).map(cliente => ({
         clientId: cliente.clientId,
@@ -87,6 +90,6 @@ function enviarMensajeACliente(clientId, type,id) {
       cliente.ws.send(JSON.stringify({ tipo: type, id }));
     }
   }
-/*server.listen(PORT, () => {
+/*server.listen(port, () => {
     console.log('Servidor WebSocket escuchando en el puerto 3020');
 });*/
