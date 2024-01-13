@@ -249,12 +249,13 @@ const apiControllers = {
     buyObject: async (req, res) => {
         const user_id = req.body[0].user_id
         const object_id = req.body[0].object_id
+        const quantity = req.body[0].quantity
         const object = await db.Objects.findOne({ where: { object_id } })
         const userMoney = await db.UserObjects.findOne({
             where: { object_id: 7, user_id } //7 es Money
         });
-        if (userMoney.quantity > object.price) {
-            userMoney.quantity -= object.price //poner el precio del objeto comprado
+        if (userMoney.quantity >= (object.price * quantity)) {
+            userMoney.quantity -= object.price * quantity //poner el precio del objeto comprado
             await userMoney.save();
             const userObject = await db.UserObjects.findOne({
                 where: { user_id, object_id },
@@ -262,14 +263,14 @@ const apiControllers = {
             /*falta ver si en esta funcion restamos la plata tabmién o si se hace por otro lado*/
             if (userObject) {
                 // Si existe, actualizar la cantidad
-                userObject.quantity += 1;
+                userObject.quantity += quantity;
                 await userObject.save(); // Guardar los cambios en la base de datos
             } else {
                 // Si no existe, crear un nuevo UserObject
                 await db.UserObjects.create({
                     object_id,
                     user_id,
-                    quantity: 1,
+                    quantity
                 });
             }
         } else {
@@ -374,7 +375,7 @@ const apiControllers = {
             moveLevels.forEach((moveLevel) => {
                 if (move.move_id === moveLevel.move_id && moveLevel.level === 1) {
                     movelevel_id = moveLevel.movelevel_id
-                    move_id=move.move_id
+                    move_id = move.move_id
                 }
             })
             const alreadyHasTheMove = await db.UserFighterMoves.findOne({
