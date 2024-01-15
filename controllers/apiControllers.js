@@ -1,6 +1,7 @@
 const db = require('../database/models')
 const { Op } = require('sequelize');
 const { jwtDecode } = require('jwt-decode');
+const userController = require('./userController');
 
 const apiControllers = {
     getAllUsers: async (req, res) => {
@@ -96,27 +97,12 @@ const apiControllers = {
             where: { google_id: decoded.sub }
         })
         if (user) {
-            console.log(user)
+            //console.log(user)
             return res.send(user)
         } else {
-            await db.Users.create({
-                email: decoded.email,
-                name: decoded.name,
-                google_id: decoded.sub,
-                google_picture: decoded.picture,
-                money: 100,
-                profile: "Player",
-                avatar: decoded.picture,
-                password: "googleLogin"
-            })
-            let newUser
-            await db.Users.findOne({
-                where: { google_id: decoded.sub }
-            })
-                .then((user) => {
-                    newUser = user
-                })
-            const newUserFighter = await db.UserFighters.create({
+            const newUser = await userController.createUser(decoded);
+            await userController.createUserFighter(1, newUser.user_id);
+            /*const newUserFighter = await db.UserFighters.create({
                 fighter_id: 1,
                 user_id: newUser.user_id,
                 active: "true",
@@ -133,9 +119,9 @@ const apiControllers = {
                 special_defense_multiplier: 1,
                 current_xp: 0,
                 level: 1
-            });
+            });*/
             /* le asigno movimientos en userfightermoves */
-            const user_fighter_id = newUserFighter.user_fighter_id
+            /*const user_fighter_id = newUserFighter.user_fighter_id
             const fighterMoves = await db.Moves.findAll({ where: { fighter_id: 1, min_level: 1 } })
             for (const move of fighterMoves) {
                 let movelevel_id
@@ -153,7 +139,7 @@ const apiControllers = {
                     movelevel_id,
                     selected: 1
                 })
-            }
+            }*/
             await db.UserObjects.create({
                 object_id: 7,
                 user_id: newUser.user_id,
