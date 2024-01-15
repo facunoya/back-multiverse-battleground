@@ -27,6 +27,14 @@ module.exports = (sequelize, dataTypes) => {
             type: dataTypes.STRING(255),
             allowNull: false
         },
+        google_id: {
+            type: dataTypes.STRING(256),
+            allowNull: false
+        },
+        google_picture: {
+            type: dataTypes.STRING(256),
+            allowNull: false
+        },
         profile: {
             type: dataTypes.STRING(50),
             allowNull: false

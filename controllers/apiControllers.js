@@ -1,5 +1,6 @@
 const db = require('../database/models')
 const { Op } = require('sequelize');
+const { jwtDecode } = require('jwt-decode');
 
 const apiControllers = {
     getAllUsers: async (req, res) => {
@@ -86,6 +87,84 @@ const apiControllers = {
             .then((objects) => {
                 return res.send(objects)
             })
+    },
+    userLogin: async (req, res) => {
+        let parametros = req.body[0]
+        let token = parametros.credentials.credential
+        const decoded = jwtDecode(token);
+        const user = await db.Users.findOne({
+            where: { google_id: decoded.sub }
+        })
+        if (user) {
+            console.log(user)
+            return res.send(user)
+        } else {
+            await db.Users.create({
+                email: decoded.email,
+                name: decoded.name,
+                google_id: decoded.sub,
+                google_picture: decoded.picture,
+                money: 100,
+                profile:"Player",
+                avatar:decoded.picture,
+                password:"googleLogin"
+            })
+            let newUser
+            await db.Users.findOne({
+                where: { google_id: decoded.sub }
+            })
+                .then((user) => {
+                  newUser=user
+                })
+                const newUserFighter = await db.UserFighters.create({
+                    fighter_id:1,
+                    user_id:newUser.user_id,
+                    active: "true",
+                    in_party: "true",
+                    extra_accuracy: 0,
+                    extra_max_hp: 0,
+                    extra_attack: 0,
+                    extra_special_attack: 0,
+                    extra_defense: 0,
+                    extra_special_defense: 0,
+                    attack_multiplier:1,
+                    special_attack_multiplier:1,
+                    defense_multiplier:1,
+                    special_defense_multiplier:1,
+                    current_xp: 0,
+                    level: 1
+                });
+                /* le asigno movimientos en userfightermoves */
+                const user_fighter_id = newUserFighter.user_fighter_id
+                const fighterMoves = await db.Moves.findAll({ where: { fighter_id:1, min_level: 1 } })
+                for (const move of fighterMoves) {
+                    let movelevel_id
+                    const moveLevels = await db.MoveLevels.findAll()
+                    moveLevels.forEach((moveLevel) => {
+                        if (move.move_id === moveLevel.move_id && moveLevel.level === 1) {
+                            movelevel_id = moveLevel.movelevel_id
+                        }
+                    })
+                    await db.UserFighterMoves.create({
+                        move_id: move.move_id,
+                        level: 1,
+                        current_xp: 1,
+                        user_fighter_id,
+                        movelevel_id,
+                        selected: 1
+                    })
+                }
+                await db.UserObjects.create({
+                    object_id:7,
+                    user_id:newUser.user_id,
+                    quantity:150
+                });
+                return res.send(newUser)
+        }
+        /*await db.Objects.findAll()
+            .then((objects) => {
+                return res.send(objects)
+            })*/
     },
     getAllUserFighters: async (req, res) => {
         const user_id = req.params.user_id ? req.params.user_id : null;
