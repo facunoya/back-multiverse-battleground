@@ -273,11 +273,13 @@ const apiControllers = {
             const updateObject = await db.UserObjects.findOne({
                 where: { user_object_id }
             })
-            if (quantity > 0) {
+            if (quantity > 0 && updateObject.object_id !== 7) {
                 updateObject.quantity = quantity
                 await db.UserObjects.update({ ...updateObject, quantity: quantity }, { where: { user_object_id } })//esperar a que este resuelto
             } else {
-                await db.UserObjects.destroy({ where: { user_object_id } })
+                if (updateObject.object_id !== 7){
+                    await db.UserObjects.destroy({ where: { user_object_id } })
+                }
             }
         })
         return res.send('ok')
@@ -483,7 +485,7 @@ const apiControllers = {
             where: { user_id, object_id: 7 } //7 es Money
         });
         userObjects.quantity += quantity
-        userObjects.save()
+        await userObjects.save()
         return res.send("ok")
     },
     removeFromParty: async (req, res) => {
