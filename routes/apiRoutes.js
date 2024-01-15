@@ -30,6 +30,6 @@ router.get('/', (req, res) => {
     res.send('running app..')
 })
 
-router.post('/crearuno', apiControllers.createUser)
+//router.post('/crearuno', apiControllers.createUser)
 
 module.exports = router

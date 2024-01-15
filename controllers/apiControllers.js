@@ -101,45 +101,7 @@ const apiControllers = {
             return res.send(user)
         } else {
             const newUser = await userController.createUser(decoded);
-            await userController.createUserFighter(1, newUser.user_id);
-            /*const newUserFighter = await db.UserFighters.create({
-                fighter_id: 1,
-                user_id: newUser.user_id,
-                active: "true",
-                in_party: "true",
-                extra_accuracy: 0,
-                extra_max_hp: 0,
-                extra_attack: 0,
-                extra_special_attack: 0,
-                extra_defense: 0,
-                extra_special_defense: 0,
-                attack_multiplier: 1,
-                special_attack_multiplier: 1,
-                defense_multiplier: 1,
-                special_defense_multiplier: 1,
-                current_xp: 0,
-                level: 1
-            });*/
-            /* le asigno movimientos en userfightermoves */
-            /*const user_fighter_id = newUserFighter.user_fighter_id
-            const fighterMoves = await db.Moves.findAll({ where: { fighter_id: 1, min_level: 1 } })
-            for (const move of fighterMoves) {
-                let movelevel_id
-                const moveLevels = await db.MoveLevels.findAll()
-                moveLevels.forEach((moveLevel) => {
-                    if (move.move_id === moveLevel.move_id && moveLevel.level === 1) {
-                        movelevel_id = moveLevel.movelevel_id
-                    }
-                })
-                await db.UserFighterMoves.create({
-                    move_id: move.move_id,
-                    level: 1,
-                    current_xp: 1,
-                    user_fighter_id,
-                    movelevel_id,
-                    selected: 1
-                })
-            }*/
+            await userController.createUserFighter(1, newUser.user_id, "register");
             await db.UserObjects.create({
                 object_id: 7,
                 user_id: newUser.user_id,
@@ -147,10 +109,6 @@ const apiControllers = {
             });
             return res.send(newUser)
         }
-        /*await db.Objects.findAll()
-            .then((objects) => {
-                return res.send(objects)
-            })*/
     },
     getAllUserFighters: async (req, res) => {
         const user_id = req.params.user_id ? req.params.user_id : null;
@@ -355,44 +313,7 @@ const apiControllers = {
         if (userMoney.quantity > fighter.price) {
             userMoney.quantity -= fighter.price //poner el precio del objeto comprado
             await userMoney.save();
-            const newUserFighter = await db.UserFighters.create({
-                fighter_id,
-                user_id,
-                active: "false",
-                in_party: "false",
-                extra_accuracy: 0,
-                extra_max_hp: 0,
-                extra_attack: 0,
-                extra_special_attack: 0,
-                extra_defense: 0,
-                extra_special_defense: 0,
-                attack_multiplier: 1,
-                special_attack_multiplier: 1,
-                defense_multiplier: 1,
-                special_defense_multiplier: 1,
-                current_xp: 0,
-                level: 1
-            });
-            /* le asigno movimientos en userfightermoves */
-            const user_fighter_id = newUserFighter.user_fighter_id
-            const fighterMoves = await db.Moves.findAll({ where: { fighter_id, min_level: 1 } })
-            for (const move of fighterMoves) {
-                let movelevel_id
-                const moveLevels = await db.MoveLevels.findAll()
-                moveLevels.forEach((moveLevel) => {
-                    if (move.move_id === moveLevel.move_id && moveLevel.level === 1) {
-                        movelevel_id = moveLevel.movelevel_id
-                    }
-                })
-                await db.UserFighterMoves.create({
-                    move_id: move.move_id,
-                    level: 1,
-                    current_xp: 1,
-                    user_fighter_id,
-                    movelevel_id,
-                    selected: 1
-                })
-            }
+            await userController.createUserFighter(fighter_id, user_id, "buy")
         } else {
             return res.send("no money")
         }
@@ -524,21 +445,21 @@ const apiControllers = {
         await userFighter.save()
         res.send('ok')
     },
-    createUser: async (req, res) => {
-        const newUser = await { ...req.body }
-        await db.Users.create({ ...newUser })
-        db.Users.findAll()
-            .then((users) => {
-
-                return res.send(users)
-            })
-        console.log({ ...newUser })
-        return res.status(200).json(newUser)
-        // const newUser = await { ...req.body }
-        // console.log(req.body)
-        // return res.status(200).json(newUser)
-
-    },
+    /* createUser: async (req, res) => {
+         const newUser = await { ...req.body }
+         await db.Users.create({ ...newUser })
+         db.Users.findAll()
+             .then((users) => {
+ 
+                 return res.send(users)
+             })
+         console.log({ ...newUser })
+         return res.status(200).json(newUser)
+         // const newUser = await { ...req.body }
+         // console.log(req.body)
+         // return res.status(200).json(newUser)
+ 
+     },*/
     createFighterLevels: async (req, res) => {
         await db.FighterLevels.create({
             "name": "Ameo",
