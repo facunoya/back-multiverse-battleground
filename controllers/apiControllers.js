@@ -516,22 +516,22 @@ const apiControllers = {
     setFirstFighter: async (req, res) => {
         const user_fighter_id = req.body[0].user_fighter_id
         const user_id = req.body[0].user_id
+        const userFighters = await db.UserFighters.findAll({
+            where: {
+                user_id, in_party: "true"
+            }
+        });
+        if (userFighters) {
+            userFighters.forEach(async(fighter) => {
+                fighter.active = "false"
+                await fighter.save()
+            })
+        }
         const userFighter = await db.UserFighters.findOne({
             where: { user_fighter_id }
         });
         userFighter.active = "true"
         await userFighter.save()
-        const userFighters = await db.UserFighters.findOne({
-            where: {
-                user_id, in_party: "true", user_fighter_id: {
-                    [db.Sequelize.Op.ne]: user_fighter_id,
-                }
-            }
-        });
-        if (userFighters) {
-            userFighters.active = "false"
-            await userFighters.save()
-        }
         res.send('ok')
     },
     createUser: async (req, res) => {
