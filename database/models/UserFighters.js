@@ -53,19 +53,19 @@ module.exports = (sequelize, dataTypes) => {
         },
         attack_multiplier: {
             type: dataTypes.BIGINT(11),
-            allowNull: false
+            allowNull: true
         },
         special_attack_multiplier: {
             type: dataTypes.BIGINT(11),
-            allowNull: false
+            allowNull: true
         },
         defense_multiplier: {
             type: dataTypes.BIGINT(11),
-            allowNull: false
+            allowNull: true
         },
         special_defense_multiplier: {
             type: dataTypes.BIGINT(11),
-            allowNull: false
+            allowNull: true
         },
         current_xp: {
             type: dataTypes.BIGINT(11),
