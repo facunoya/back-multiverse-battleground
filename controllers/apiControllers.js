@@ -114,7 +114,6 @@ const apiControllers = {
         const user_id = req.params.user_id ? req.params.user_id : null;
         // Construir la condición de búsqueda
         const userFighters = await userController.getAllUserFighters(user_id)
-        console.log(userFighters)
         return res.send(userFighters)
     },
     getAllUserObjects: async (req, res) => {
@@ -396,7 +395,7 @@ const apiControllers = {
          // return res.status(200).json(newUser)
  
      },*/
-    createFighterLevels: async (req, res) => {
+    /*createFighterLevels: async (req, res) => {
         await db.FighterLevels.create({
             "name": "Ameo",
             "email": "ameo@gmail.com",
@@ -409,7 +408,7 @@ const apiControllers = {
             .then((users) => {
                 return res.send(users)
             })
-    },
+    },*/
     updateUserConfig: async (req, res) => {
         const parameters = req.body[0]
         const bg = parameters.bg
