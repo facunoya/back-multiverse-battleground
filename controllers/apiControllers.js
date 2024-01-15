@@ -113,73 +113,9 @@ const apiControllers = {
     getAllUserFighters: async (req, res) => {
         const user_id = req.params.user_id ? req.params.user_id : null;
         // Construir la condición de búsqueda
-        const whereCondition = user_id ? { user_id: user_id } : {};
-        await db.UserFighters.findAll({ where: whereCondition, include: [{ association: "fighters" }] })
-            .then(async (userFighters) => {
-                let mappedUserFighters = userFighters.map((userFighter) => ({
-                    ...userFighter.toJSON(),  // Utiliza el spread operator para copiar todas las propiedades
-                    name: userFighter.fighters.name,
-                    img_back: userFighter.fighters.img_back,
-                    img_front: userFighter.fighters.img_front,
-                    // Otros campos que desees incluir...
-                }));
-                for (let fighter of mappedUserFighters) {
-                    const fighterLevel = await db.FighterLevels.findOne({ where: { fighter_id: fighter.fighter_id, level: fighter.level } })
-                    fighter.attack = fighterLevel.attack
-                    fighter.special_attack = fighterLevel.special_attack
-                    fighter.defense = fighterLevel.defense
-                    fighter.special_defense = fighterLevel.special_defense
-                    fighter.accuracy = fighterLevel.accuracy
-                    fighter.max_hp = fighterLevel.max_hp
-                    fighter.current_hp = fighterLevel.max_hp
-                    let moves = await db.UserFighterMoves.findAll({
-                        where: { user_fighter_id: fighter.user_fighter_id },
-                        include: [
-                            {
-                                model: db.MoveLevels,
-                                as: 'movelevels',
-                                include: [
-                                    {
-                                        model: db.Moves,
-                                        as: "moves"
-                                    },
-                                    {
-                                        model: db.MoveActions,
-                                        as: "moveactions"
-                                    }
-                                ]
-                            },
-                        ],
-                    });
-                    moves = moves.map(move => {
-                        const restructuredMove = {
-                            user_fighter_move_id: move.user_fighter_move_id,
-                            move_id: move.move_id,
-                            user_fighter_id: move.user_fighter_id,
-                            current_xp: move.current_xp,
-                            level: move.level,
-                            movelevel_id: move.movelevel_id,
-                            img: move.movelevels.moves.img,
-                            name: move.movelevels.moves.name,
-                            sfx: move.movelevels.moves.sfx,
-                            mp: move.movelevels.moves.mp,
-                            actionmoves: move.movelevels.moveactions.map(action => ({
-                                action_move_id: action.action_move_id,
-                                move_id: action.move_id,
-                                attack_type: action.attack_type,
-                                field: action.field,
-                                inflicted_on: action.inflicted_on,
-                                value: action.value,
-                                level: action.level,
-                                movelevel_id: action.movelevel_id
-                            }))
-                        };
-                        return restructuredMove;
-                    });
-                    fighter.moves = moves
-                }
-                return res.send(mappedUserFighters)
-            })
+        const userFighters = await userController.getAllUserFighters(user_id)
+        console.log(userFighters)
+        return res.send(userFighters)
     },
     getAllUserObjects: async (req, res) => {
         const user_id = req.params.user_id;
