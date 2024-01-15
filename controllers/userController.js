@@ -4,7 +4,16 @@ const { Op } = require('sequelize');
 const loginUser = async (req, res) => {
 
 }
-
+/**
+ * Crea un nuevo usuario a partir de la información proporcionada.
+ *
+ * param {Object} userInfo - Información del usuario.
+ * param {string} userInfo.sub - Valor de sub(clave google_id).
+ * param {string} userInfo.email - Correo electrónico del usuario.
+ * param {string} userInfo.name - Nombre completo del usuario.
+ * param {string} userInfo.picture - URL de la imagen del usuario.
+ * @returns {Promise<Object>} - Promesa que se resuelve con el objeto del nuevo usuario creado.
+ */
 const createUser = async (decoded) => {
     try {
         // Crear el nuevo usuario directamente con el resultado de create

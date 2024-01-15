@@ -74,7 +74,6 @@ const apiControllers = {
         INNER JOIN fighters ON fighterlevels.fighter_id = fighters.fighter_id
         WHERE fighterlevels.level = 1;
       `;
-
         // Ejecuta la consulta SQL personalizada usando sequelize.query
         const result = await db.sequelize.query(query, {
             type: db.sequelize.QueryTypes.SELECT,
@@ -93,6 +92,7 @@ const apiControllers = {
         let parametros = req.body[0]
         let token = parametros.credentials.credential
         const decoded = jwtDecode(token);
+        console.log(decoded)
         const user = await db.Users.findOne({
             where: { google_id: decoded.sub }
         })
