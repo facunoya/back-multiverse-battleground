@@ -141,6 +141,7 @@ const getAllUserFighters = async (user_id) => {
                         current_xp: move.current_xp,
                         level: move.level,
                         movelevel_id: move.movelevel_id,
+                        selected: move.selected,
                         img: move.movelevels.moves.img,
                         name: move.movelevels.moves.name,
                         sfx: move.movelevels.moves.sfx,

@@ -263,6 +263,24 @@ const apiControllers = {
         userFighter.save()
         return res.send("ok")
     },
+    addMove: async (req, res) => {
+        const user_fighter_move_id = req.body[0].user_fighter_move_id
+        const userFighterMove = await db.UserFighterMoves.findOne({
+            where: { user_fighter_move_id }
+        });
+        userFighterMove.selected = 1
+        userFighterMove.save()
+        return res.send("ok")
+    },
+    removeMove: async (req, res) => {
+        const user_fighter_move_id = req.body[0].user_fighter_move_id
+        const userFighterMove = await db.UserFighterMoves.findOne({
+            where: { user_fighter_move_id }
+        });
+        userFighterMove.selected = 0
+        userFighterMove.save()
+        return res.send("ok")
+    },
     updateFighter: async (req, res) => {
         const newFighter = req.body[0].newFighter
         const current_xp = req.body[0].current_xp

@@ -31,7 +31,6 @@ module.exports = (sequelize, dataTypes) => {
             type: dataTypes.BIGINT(11),
             allowNull: false
         }
-
     };
     let config = {
         tableName: "userfightermoves",
