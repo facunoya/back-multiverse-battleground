@@ -395,6 +395,18 @@ const apiControllers = {
          // return res.status(200).json(newUser)
  
      },*/
+    userToUpdate: async (req, res) => {
+        const idUserToUpdate = 9
+        const userToUpdate = await db.Users.findOne({
+            where: {
+                user_id: idUserToUpdate
+            }
+        })
+        if (userToUpdate) {
+            return res.json(userToUpdate)
+        }
+        return res.send('No se encontro el usuario')
+    },
     /*createFighterLevels: async (req, res) => {
         await db.FighterLevels.create({
             "name": "Ameo",
