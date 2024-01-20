@@ -41,8 +41,12 @@ const createUser = async (decoded) => {
 const createUserFighter = async (fighter_id, user_id, origin) => {
     try {
         // Crear el nuevo luchador de usuario
-        let active = origin === "register"
-        let in_party = origin === "register"
+        let active = "false"
+        let in_party = "false"
+        if (origin === "register") {
+            active = "true"
+            in_party = "true"
+        }
         const newUserFighter = await db.UserFighters.create({
             fighter_id,
             user_id,
