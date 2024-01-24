@@ -67,6 +67,27 @@ const apiControllers = {
                 return res.send(fighters)
             })
     },
+    getFighter: async (req, res) => {
+        const fighter_id = req.params.fighter_id 
+        await db.Fighters.findOne({
+            where:{fighter_id},
+            include: [
+                {
+                    model: db.Moves, // Modelo asociado a 'moves'
+                    as: 'moves', // Alias de la asociación 'moves'
+                    include: [
+                        {
+                            model: db.MoveActions, // Modelo asociado a 'moveactions' a través de 'moves'
+                            as: 'actionmoves' // Alias de la asociación 'actionmoves'
+                        }
+                    ]
+                }
+            ]
+        })
+            .then((fighters) => {
+                return res.send(fighters)
+            })
+    },
     getAllFightersInitialLevel: async (req, res) => {
         const query = `
         SELECT fighterlevels.*, fighters.*
