@@ -2,6 +2,7 @@ const db = require('../database/models')
 const { Op } = require('sequelize');
 const { jwtDecode } = require('jwt-decode');
 const userController = require('./userController');
+const configController = require('./configController');
 
 const apiControllers = {
     getAllUsers: async (req, res) => {
@@ -67,6 +68,7 @@ const apiControllers = {
                 return res.send(fighters)
             })
     },
+<<<<<<< HEAD
     getFighter: async (req, res) => {
         const fighter_id = req.params.fighter_id 
         await db.Fighters.findOne({
@@ -87,6 +89,13 @@ const apiControllers = {
             .then((fighters) => {
                 return res.send(fighters)
             })
+=======
+    updateFighterConfig: async (req, res) => {
+        let parametros = req.body[0]
+        let fighter = parametros.fighter
+        const newFighter = configController.updateFighterConfig(fighter)
+        return res.send(newFighter)
+>>>>>>> 793d851aaed74faffc8c4be32e5a5743dfba840d
     },
     getAllFightersInitialLevel: async (req, res) => {
         const query = `
