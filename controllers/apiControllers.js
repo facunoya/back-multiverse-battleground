@@ -68,11 +68,10 @@ const apiControllers = {
                 return res.send(fighters)
             })
     },
-<<<<<<< HEAD
     getFighter: async (req, res) => {
-        const fighter_id = req.params.fighter_id 
+        const fighter_id = req.params.fighter_id
         await db.Fighters.findOne({
-            where:{fighter_id},
+            where: { fighter_id },
             include: [
                 {
                     model: db.Moves, // Modelo asociado a 'moves'
@@ -89,13 +88,12 @@ const apiControllers = {
             .then((fighters) => {
                 return res.send(fighters)
             })
-=======
+    },
     updateFighterConfig: async (req, res) => {
-        let parametros = req.body[0]
-        let fighter = parametros.fighter
-        const newFighter = configController.updateFighterConfig(fighter)
+        let fighterData = req.body[0]
+        const newFighter = await configController.updateFighterConfig(fighterData)
+        console.log(newFighter)
         return res.send(newFighter)
->>>>>>> 793d851aaed74faffc8c4be32e5a5743dfba840d
     },
     getAllFightersInitialLevel: async (req, res) => {
         const query = `

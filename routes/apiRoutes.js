@@ -30,6 +30,7 @@ router.get('/usertoupdate', apiControllers.userToUpdate)
 router.post('/removefromparty', apiControllers.removeFromParty)
 router.post('/setfirstfighter', apiControllers.setFirstFighter)
 router.post('/updateuserconfig', apiControllers.updateUserConfig)
+router.post('/updatefighterconfig', apiControllers.updateFighterConfig)
 router.get('/', (req, res) => {
     res.send('running app..')
 })
