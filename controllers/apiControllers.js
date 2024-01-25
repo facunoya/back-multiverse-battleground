@@ -91,6 +91,11 @@ const apiControllers = {
         const newFighter = await configController.updateFighterConfig(fighterData)
         return res.send(newFighter)
     },
+    updateMoveConfig: async (req, res) => {
+        let moveData = req.body
+        const newMove = await configController.updateMoveConfig(moveData)
+        return res.send(newMove)
+    },
     getAllFightersInitialLevel: async (req, res) => {
         const query = `
         SELECT fighterlevels.*, fighters.*

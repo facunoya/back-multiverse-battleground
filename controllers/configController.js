@@ -20,10 +20,29 @@ const updateFighterConfig = async (fighterData) => {
         throw error;
     }
 }
+const updateMoveConfig = async (moveData) => {
+    try {
+        const move =  await db.Moves.findOne({
+            where: { move_id:moveData.move_id },
+        })
+        move.name=moveData.name
+        move.img=moveData.img
+        move.sfx=moveData.sfx
+        move.mp=moveData.mp
+        move.min_level=moveData.min_level
+        await move.save()
+        return move
+    } catch (error) {
+        // Manejar errores, por ejemplo, puedes loggearlos o lanzar una excepción
+        console.error("Error al crear el usuario:", error);
+        throw error;
+    }
+}
 
 
 module.exports = {
-    updateFighterConfig
+    updateFighterConfig,
+    updateMoveConfig
     /*loginUser,
     createUser,
     createUserFighter,
