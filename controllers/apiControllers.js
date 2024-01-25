@@ -71,28 +71,24 @@ const apiControllers = {
     getFighter: async (req, res) => {
         const fighter_id = req.params.fighter_id
         await db.Fighters.findOne({
-            where: { fighter_id },
-            include: [
-                {
-                    model: db.Moves, // Modelo asociado a 'moves'
-                    as: 'moves', // Alias de la asociación 'moves'
-                    include: [
-                        {
-                            model: db.MoveActions, // Modelo asociado a 'moveactions' a través de 'moves'
-                            as: 'actionmoves' // Alias de la asociación 'actionmoves'
-                        }
-                    ]
-                }
-            ]
+            where: { fighter_id }
         })
             .then((fighters) => {
                 return res.send(fighters)
             })
     },
+    getFighterMoves: async (req, res) => {
+        const fighter_id = req.params.fighter_id
+        await db.Moves.findAll({
+            where: { fighter_id }
+        })
+            .then((moves) => {
+                return res.send(moves)
+            })
+    },
     updateFighterConfig: async (req, res) => {
         let fighterData = req.body[0]
         const newFighter = await configController.updateFighterConfig(fighterData)
-        console.log(newFighter)
         return res.send(newFighter)
     },
     getAllFightersInitialLevel: async (req, res) => {
