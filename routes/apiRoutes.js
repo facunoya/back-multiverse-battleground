@@ -13,6 +13,7 @@ router.get('/alluserobjects/:user_id', apiControllers.getAllUserObjects)
 router.post('/udpateuserobjectsbattle', apiControllers.upadateUserObjects)//Este tiene que ser un POST y recibir los parametros del
 router.get('/allfighterlevels', apiControllers.getAllFighterLevels)
 router.get('/allmoves', apiControllers.getAllMoves)
+router.get('/moveactions/:move_id', apiControllers.getMoveActions)
 router.get('/allfightermoves', apiControllers.getAllFighterMoves)
 router.get('/allfightersinitiallevel', apiControllers.getAllFightersInitialLevel)
 router.get('/moves/:fighter_id', apiControllers.getFighterMoves)
