@@ -218,7 +218,10 @@ const apiControllers = {
         return res.send('ok')
     },
     getAllFighterLevels: async (req, res) => {
-        await db.FighterLevels.findAll({ include: [{ association: "fighters" }] })
+        const fighter_id = req.params.fighter_id ? req.params.fighter_id : null;
+        // Construir la condición de búsqueda
+        const whereCondition = fighter_id ? { fighter_id: fighter_id } : {};
+        await db.FighterLevels.findAll({where:whereCondition, include: [{ association: "fighters" }] })
             .then((fighterLevel) => {
                 return res.send(fighterLevel)
             })
