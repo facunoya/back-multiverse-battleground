@@ -14,6 +14,7 @@ router.post('/udpateuserobjectsbattle', apiControllers.upadateUserObjects)//Este
 router.get('/allfighterlevels/:fighter_id', apiControllers.getAllFighterLevels)
 router.get('/allfighterlevels', apiControllers.getAllFighterLevels)
 router.get('/allmoves', apiControllers.getAllMoves)
+router.get('/moveactions/:move_id', apiControllers.getMoveActions)
 router.get('/allfightermoves', apiControllers.getAllFighterMoves)
 router.get('/allfightersinitiallevel', apiControllers.getAllFightersInitialLevel)
 router.get('/moves/:fighter_id', apiControllers.getFighterMoves)

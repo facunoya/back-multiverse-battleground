@@ -232,6 +232,13 @@ const apiControllers = {
                 return res.send(moves)
             })
     },
+    getMoveActions: async (req, res) => {
+        const move_id = req.params.move_id
+        await db.MoveActions.findAll({ where: { move_id } })
+            .then((actions) => {
+                return res.send(actions)
+            })
+    },
     getAllFighterMoves: async (req, res) => {
         await db.UserFighterMoves.findAll({ include: [{ association: "userfighters" }, { association: "moves" }] })
             .then((moves) => {
