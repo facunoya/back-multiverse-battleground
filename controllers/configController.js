@@ -51,6 +51,24 @@ const updateObjectActionConfig = async (objectActionData) => {
     throw error
   }
 }
+const updateMoveActionConfig = async (moveActionData) => {
+  try {
+    const moveAction = await db.MoveActions.findOne({
+      where: { action_move_id: moveActionData.action_move_id },
+    })
+    moveAction.field = moveActionData.field
+    moveAction.inflicted_on = moveActionData.inflicted_on
+    moveAction.value = moveActionData.value
+    moveAction.level = moveActionData.level
+    moveAction.attack_type = moveActionData.attack_type
+    await moveAction.save()
+    return moveAction
+  } catch (error) {
+    // Manejar errores, por ejemplo, puedes loggearlos o lanzar una excepción
+    console.error("Error al crear el objeto:", error)
+    throw error
+  }
+}
 const updateMoveConfig = async (moveData) => {
   try {
     const move = await db.Moves.findOne({
@@ -75,6 +93,7 @@ module.exports = {
   updateMoveConfig,
   updateObjectConfig,
   updateObjectActionConfig,
+  updateMoveActionConfig,
   /*loginUser,
     createUser,
     createUserFighter,

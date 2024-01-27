@@ -44,6 +44,7 @@ router.post(
   "/updateobjectactionconfig",
   apiControllers.updateObjectActionConfig
 )
+router.post("/updatemoveactionconfig", apiControllers.updateMoveActionConfig)
 router.post("/updatemove", apiControllers.updateMoveConfig)
 router.get("/", (req, res) => {
   res.send("running app..")

@@ -114,6 +114,13 @@ const apiControllers = {
     )
     return res.send(newObjectAction)
   },
+  updateMoveActionConfig: async (req, res) => {
+    let moveActionData = req.body[0]
+    const newMoveAction = await configController.updateMoveActionConfig(
+      moveActionData
+    )
+    return res.send(newMoveAction)
+  },
   updateMoveConfig: async (req, res) => {
     let moveData = req.body
     const newMove = await configController.updateMoveConfig(moveData)
