@@ -102,6 +102,18 @@ const apiControllers = {
     const newFighter = await configController.updateFighterConfig(fighterData)
     return res.send(newFighter)
   },
+  updateObjectConfig: async (req, res) => {
+    let objectData = req.body[0]
+    const newObject = await configController.updateObjectConfig(objectData)
+    return res.send(newObject)
+  },
+  updateObjectActionConfig: async (req, res) => {
+    let objectActionData = req.body[0]
+    const newObjectAction = await configController.updateObjectActionConfig(
+      objectActionData
+    )
+    return res.send(newObjectAction)
+  },
   updateMoveConfig: async (req, res) => {
     let moveData = req.body
     const newMove = await configController.updateMoveConfig(moveData)
