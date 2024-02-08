@@ -57,7 +57,7 @@ wss.on('connection', (ws) => {
             enviarListaClientesATodos()
         }
         if (data.type === "challenge") {
-            enviarMensajeACliente(data.id,"challenge",data.clientId)
+            enviarMensajeACliente(data.id,"challenge",data.clientId,data.userName)
         }
         console.log(`Mensaje recibido del cliente: ${message}`);
 
@@ -83,11 +83,11 @@ function enviarMensajeATodos(mensaje) {
         }
     });
 }
-function enviarMensajeACliente(clientId, type,id) {
+function enviarMensajeACliente(clientId, type,id,userName) {
     const cliente = clientesConectados.get(clientId);
   
     if (cliente && cliente.ws && cliente.ws.readyState === WebSocket.OPEN) {
-      cliente.ws.send(JSON.stringify({ tipo: type, id }));
+      cliente.ws.send(JSON.stringify({ tipo: type, id,userName }));
     }
   }
 /*server.listen(port, () => {

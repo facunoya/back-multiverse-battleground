@@ -21,7 +21,7 @@ const updateFighterConfig = async (fighterData) => {
 const updateObjectConfig = async (objectData) => {
   try {
     const object = await db.Objects.findOne({
-      where: { object_id: objectData.object_id },
+      where: { object_id: objectData.object_id }
     })
     object.name = objectData.name
     object.img = objectData.img
