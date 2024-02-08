@@ -27,6 +27,8 @@ const updateObjectConfig = async (objectData) => {
     object.img = objectData.img
     object.type = objectData.type
     object.price = objectData.price
+    object.category = objectData.category
+    object.description = objectData.description
     await object.save()
     return object
   } catch (error) {
