@@ -52,7 +52,7 @@ router.get("/", (req, res) => {
 })
 router.get('/management', managementControllers.getAllUsers)
 router.get('/oneuser', managementControllers.getOneUser)
-
+router.get('/modifyuser', managementControllers.modifyUser)
 //router.post('/crearuno', apiControllers.createUser)
 
 module.exports = router

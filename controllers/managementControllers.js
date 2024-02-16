@@ -15,7 +15,7 @@ const managementControllers = {
         res.json(result)
     },
     getOneUser: async (req, res) => {
-        const id = 4
+        const id = 7
         const query = `
         SELECT * FROM users WHERE users.user_id = ${id};
       `
@@ -23,7 +23,7 @@ const managementControllers = {
             const result = await db.sequelize.query(query, {
                 type: db.sequelize.QueryTypes.SELECT,
             })
-            if (result != '') {
+            if (result.length > 0) {
 
                 return res.status(200).json(result)
             }
@@ -31,9 +31,22 @@ const managementControllers = {
         }
         catch (error) {
             console.log('Error: ', error)
-            res.status(500).json({ error: 'Internal server error' })
+            return res.status(500).json({ error: 'Internal server error' })
         }
-    }
+    },
+    modifyUser: async (req, res) => {
+        try {
+            const user = await managementControllers.getOneUser(req, res)
+            await user
+            return user
+        } catch (error) {
+            console.log('Error: ', error)
+            return res.status(500).json({ error: 'Internal server error' })
+        }
+
+    },
+
+
 }
 
 module.exports = managementControllers
