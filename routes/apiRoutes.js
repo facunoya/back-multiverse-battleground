@@ -1,6 +1,7 @@
 const express = require("express")
 const router = express.Router()
 const apiControllers = require("../controllers/apiControllers")
+const managementControllers = require('../controllers/managementControllers')
 
 router.get("/allusers", apiControllers.getAllUsers)
 router.get("/allusers/:user_id", apiControllers.getAllUsers)
@@ -49,6 +50,8 @@ router.post("/updatemove", apiControllers.updateMoveConfig)
 router.get("/", (req, res) => {
   res.send("running app..")
 })
+router.get('/management', managementControllers.getAllUsers)
+router.get('/oneuser', managementControllers.getOneUser)
 
 //router.post('/crearuno', apiControllers.createUser)
 
