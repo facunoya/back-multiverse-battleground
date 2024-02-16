@@ -44,9 +44,7 @@ const managementControllers = {
             return res.status(500).json({ error: 'Internal server error' })
         }
 
-    },
-
-
+    }
 }
 
 module.exports = managementControllers
