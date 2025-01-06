@@ -1,0 +1,36 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: multiverse-back
+spec:
+  replicas: 2  # Número de instancias
+  selector:
+    matchLabels:
+      app: multiverse-back
+  template:
+    metadata:
+      labels:
+        app: multiverse-back
+    spec:
+      containers:
+      - name: multiverse-back
+        image: multiverse-back:latest  # Cambia con tu imagen Docker
+        imagePullPolicy: Never
+        ports:
+        - containerPort: 3009
+        env:
+        - name: NODE_ENV
+          value: production
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: multiverse-back-service
+spec:
+  selector:
+    app: multiverse-back
+  ports:
+    - protocol: TCP
+      port: 3009
+      targetPort: 3009
+  type: LoadBalancer
